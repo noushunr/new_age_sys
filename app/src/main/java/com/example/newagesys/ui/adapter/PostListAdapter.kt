@@ -37,9 +37,8 @@ class PostListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         var item = items!![position]
-        holder.binding.title.text = item.title
+        holder.binding.post = item
         holder.binding.tvDate.text = formatDate(item.date!!)
-
         Glide.with(mContext)
             .load(item.url)
             .thumbnail(Glide.with(mContext).load(R.mipmap.ic_launcher))

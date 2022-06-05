@@ -46,9 +46,7 @@ class PostDetailFragment : Fragment() {
         binding = FragmentPostDetailBinding.inflate(layoutInflater)
         val safeArgs: PostDetailFragmentArgs by navArgs()
         aodpList = safeArgs.item
-
-        binding?.title.text = aodpList?.title
-        binding?.tvDecription.text = aodpList?.explanation
+        binding.post = aodpList
         binding?.date.text = formatDate(aodpList?.date!!)
         Glide.with(context!!)
             .load(aodpList?.url)
