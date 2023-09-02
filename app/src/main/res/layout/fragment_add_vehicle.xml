@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            tools:context="com.bizify.ui.fragments.AddNewJobFragment">
+
+            <RelativeLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/purple_200"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_back"
+                    android:src="@drawable/ic_back"
+                    android:padding="@dimen/dimen10dp"
+                    android:layout_centerVertical="true">
+
+                </ImageView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="Add Customers"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold">
+
+                </TextView>
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edtName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Vehicle Name"
+                android:inputType="textCapSentences"
+                android:padding="15dp"
+                android:textColorHint="#677097"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etBrand"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:textColor="@color/black"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Vehicle Brand"
+                android:padding="15dp"
+                android:textColorHint="#677097"
+                android:inputType="textCapSentences"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/edtName" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etModel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Vehicle Model"
+                android:padding="15dp"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="#677097"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etBrand" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etReg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Vehicle Registration No"
+                android:padding="15dp"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="#677097"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etModel" />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etEngine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Vehicle Engine No"
+                android:padding="15dp"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="#677097"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etReg" />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etChasis"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Vehicle Chasis No"
+                android:padding="15dp"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="#677097"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etEngine" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/iv_add"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/add_image"
+                app:layout_constraintTop_toBottomOf="@+id/etChasis">
+
+            </ImageView>
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="24dp"
+                android:backgroundTint="@color/purple_200"
+                android:padding="15dp"
+                android:text="Add"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_add">
+
+            </Button>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

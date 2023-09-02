@@ -1,0 +1,2 @@
+com.shijil.imagepicker
+string app_name

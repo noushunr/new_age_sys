@@ -3,4 +3,9 @@
     <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">50%</item>
     </style>
+    <style name="MyProgress" parent="Theme.AppCompat.Dialog" />
+    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">#8F8E8E</item>
+        <item name="boxStrokeWidth">1dp</item>
+    </style>
 </resources>

@@ -3,6 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/drawable-anydpi/ic_plus_24.xml" value="0.1655" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/drawable/curved_black_without_border.xml" value="0.177" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/drawable/edit_text_bg.xml" value="0.1505" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_add_customer.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_add_new_job.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_add_vehicle.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_connection_test.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_customer_list.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_intro.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_job_list.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_login.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_post_detail.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_post_list.xml" value="0.264" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_splash.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/fragment_vehicle_list.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/image_container.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/item_customer.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/item_post.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/item_vehicle.xml" value="0.25" />
+        <entry key="..\:/Users/Noushad/AndroidStudioProjects/new_age_sys/app/src/main/res/layout/view_custom_progress_dialogue.xml" value="0.25" />
         <entry key="..\:/Users/TILTLABS/Downloads/NewAgeSys/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/TILTLABS/Downloads/NewAgeSys/app/src/main/res/layout/fragment_post_detail.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/TILTLABS/Downloads/NewAgeSys/app/src/main/res/layout/fragment_post_list.xml" value="0.22826086956521738" />

@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+android {
+    compileSdkVersion 33
+    buildToolsVersion "32.0.0"
+
+    defaultConfig {
+
+        minSdkVersion       21
+        targetSdkVersion    33
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //implementation 'com.android.support:appcompat-v7:' + rootProject.supportLibVersion
+    implementation 'androidx.appcompat:appcompat:'+supportLibVersion
+
+    // Life cycle
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:'+archLifecycleVersion
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:'+archLifecycleVersion
+    kapt 'androidx.lifecycle:lifecycle-compiler:'+archLifecycleVersion
+
+
+
+
+}

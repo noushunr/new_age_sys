@@ -9,7 +9,7 @@
 
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".ui.fragments.PostListFragment">
+        tools:context="com.bizify.ui.fragments.PostListFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/adop_listing"
+                android:text="Job Orders"
                 android:textSize="16sp"
                 android:padding="15dp"
                 android:textColor="@color/white"
@@ -37,19 +37,50 @@
             android:layout_below="@+id/app_bar"
             android:nestedScrollingEnabled="false"
             android:scrollbars="none"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
             tools:listitem="@layout/item_post">
 
         </androidx.recyclerview.widget.RecyclerView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_no_orders"
+            android:text="No Job Orders"
+            android:textSize="16sp"
+            android:padding="15dp"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold">
+
+        </TextView>
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
             android:id="@+id/progress_circular"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_centerInParent="true"
             android:indeterminate="true"
             android:visibility="gone" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|right"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="@color/teal_200"
+            android:contentDescription="@string/fab_content_desc"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_plus_24" />
     </RelativeLayout>
 </layout>

@@ -7,32 +7,120 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.newagesys.ui.fragments.SplashFragment"
+        android:name="com.bizify.ui.fragments.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_postListFragment"
-            app:destination="@id/post_list"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_splashFragment_to_introFragment"
+            app:destination="@id/introFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true"
             />
     </fragment>
-    <fragment android:name="com.example.newagesys.ui.fragments.PostListFragment"
+
+    <fragment android:name="com.bizify.ui.fragments.PostListFragment"
         android:id="@+id/post_list"
         android:label="post_list"
         tools:layout="@layout/fragment_post_list">
         <action
             android:id="@+id/action_postListFragment_to_postDetailFragment"
-            app:destination="@id/post_detail"
+            app:destination="@id/addJobFragment"
             app:popUpTo="@id/post_list"
             />
     </fragment>
-    <fragment android:name="com.example.newagesys.ui.fragments.PostDetailFragment"
+    <fragment android:name="com.bizify.ui.fragments.PostDetailFragment"
         android:id="@+id/post_detail"
         android:label="post_detail"
         tools:layout="@layout/fragment_post_detail">
         <argument
             android:name="item"
-            app:argType="com.example.newagesys.data.model.AodpList"/>
+            app:argType="com.bizify.data.model.AodpList"/>
+    </fragment>
+    <fragment android:id="@+id/introFragment"
+        android:name="com.bizify.ui.fragments.IntroFragment"
+        android:label="Intro Fragment"
+        tools:layout="@layout/fragment_intro">
+        <action
+            android:id="@+id/action_introFragment_to_LoginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/introFragment"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+    <fragment android:id="@+id/loginFragment"
+        android:name="com.bizify.ui.fragments.LoginFragment"
+        android:label="Login Fragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_LoginFragment_to_postFragment"
+            app:destination="@id/post_list"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            />
+        <action
+            android:id="@+id/action_LoginFragment_to_connectionTestFragment"
+            app:destination="@id/test_connection"
+            app:popUpTo="@id/loginFragment"
+            />
+    </fragment>
+    <fragment android:id="@+id/addJobFragment"
+        android:name="com.bizify.ui.fragments.AddNewJobFragment"
+        android:label="Login Fragment"
+        tools:layout="@layout/fragment_add_new_job">
+        <action
+            android:id="@+id/action_NewJob_to_customerListFragment"
+            app:destination="@id/customer_list"
+            app:popUpTo="@id/addJobFragment"
+            />
+        <action
+            android:id="@+id/action_NewJob_to_vehicleListFragment"
+            app:destination="@id/vehicles"
+            app:popUpTo="@id/addJobFragment"
+            />
+    </fragment>
+    <fragment android:id="@+id/customer_list"
+        android:name="com.bizify.ui.fragments.CustomerListFragment"
+        android:label="Customer List"
+        tools:layout="@layout/fragment_customer_list">
+        <action
+            android:id="@+id/action_CustomerList_to_AddCustomerFragment"
+            app:destination="@id/add_customer"
+            app:popUpTo="@id/customer_list"
+            />
+    </fragment>
+
+    <fragment android:id="@+id/vehicles"
+        android:name="com.bizify.ui.fragments.VehicleListFragment"
+        tools:layout="@layout/fragment_vehicle_list"
+        android:label="Vehicle List">
+        <action
+            android:id="@+id/action_VehicleList_to_AddVehicleFragment"
+            app:destination="@id/add_vehicles"
+            app:popUpTo="@id/vehicles"
+            />
+    </fragment>
+    <fragment android:id="@+id/add_customer"
+        android:name="com.bizify.ui.fragments.AddCustomerFragment"
+        tools:layout="@layout/fragment_add_customer"
+        android:label="Add Customer">
+
+    </fragment>
+    <fragment android:id="@+id/add_vehicles"
+        android:name="com.bizify.ui.fragments.AddVehicleFragment"
+        tools:layout="@layout/fragment_add_vehicle"
+        android:label="Add Vehicles">
+
+    </fragment>
+    <fragment android:id="@+id/test_connection"
+        android:name="com.bizify.ui.fragments.ConnectionTestFragment"
+        tools:layout="@layout/fragment_connection_test"
+        android:label="Test Connection">
+
     </fragment>
 </navigation>

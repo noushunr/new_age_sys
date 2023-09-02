@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">New Age Sys</string>
+    <string name="app_name">Bizify</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="adop_listing">ADOP Listing</string>
     <string name="adop_details">ADOP Details</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="fab_content_desc">Add New Job</string>
+    <string name="text_loading">Loading</string>
 </resources>
