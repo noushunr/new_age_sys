@@ -78,4 +78,8 @@ class AodpListRepositories(
             api.addVehicle(request,"Bearer $token")
         }
     }
+
+    suspend fun getServices(token: String): List<Services> {
+        return apiRequest { api.getServiceList("Bearer $token") }
+    }
 }

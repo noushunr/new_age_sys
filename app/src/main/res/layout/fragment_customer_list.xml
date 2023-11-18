@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,14 +19,15 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/iv_back"
-                android:src="@drawable/ic_back"
+                android:layout_centerVertical="true"
                 android:padding="@dimen/dimen10dp"
-                android:layout_centerVertical="true">
+                android:src="@drawable/ic_back">
 
             </ImageView>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -41,27 +42,45 @@
             </TextView>
         </RelativeLayout>
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/idSV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_bar"
+            android:layout_margin="8dp"
+            android:background="@drawable/edit_text_bg"
+
+            android:padding="4dp"
+            android:queryHint="Search"
+            android:visibility="visible"
+            app:closeIcon="@drawable/ic_close"
+            app:queryBackground="@android:color/transparent"
+            app:searchIcon="@drawable/ic_search_new"
+            android:iconifiedByDefault="false">
+
+        </androidx.appcompat.widget.SearchView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/app_bar"
-            android:nestedScrollingEnabled="false"
+            android:layout_below="@+id/idSV"
             android:layout_marginTop="@dimen/dimen10dp"
+            android:nestedScrollingEnabled="false"
             android:scrollbars="none"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
             tools:listitem="@layout/item_customer">
 
         </androidx.recyclerview.widget.RecyclerView>
+
         <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
             android:id="@+id/progress_circular"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:indeterminate="true"
             android:visibility="gone" />
 

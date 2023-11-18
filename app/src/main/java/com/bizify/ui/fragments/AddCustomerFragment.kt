@@ -154,7 +154,7 @@ class AddCustomerFragment : Fragment(), KodeinAware {
         viewModel.addCustomerResponse.observe(viewLifecycleOwner) {
             if (loading.isShowing)
                 loading.cancel()
-            Toast.makeText(requireContext(), it?.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), it?.message?:"Success", Toast.LENGTH_LONG).show()
             navController.popBackStack()
         }
         return binding.root

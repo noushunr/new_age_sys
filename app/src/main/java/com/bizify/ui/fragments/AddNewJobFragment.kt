@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
@@ -41,7 +43,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [AddNewJobFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AddNewJobFragment : Fragment() , KodeinAware {
+class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedListener {
     override val kodein by kodein()
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -73,6 +75,52 @@ class AddNewJobFragment : Fragment() , KodeinAware {
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
         binding.ivBack.setOnClickListener{
             navController.popBackStack()
+        }
+        binding.mySpinner!!.setOnItemSelectedListener(this)
+
+        // Create an ArrayAdapter using a simple spinner layout and languages array
+
+
+        lifecycleScope.launch {
+            var sessions = SessionUtils(requireContext())
+            if (!isConnected(requireContext())){
+                Toast.makeText(requireContext(),"No internet connection", Toast.LENGTH_LONG).show()
+            } else {
+                loading.show(getString(R.string.text_loading))
+                try {
+                    viewModel.getServiceList(sessions.token!!)
+                }catch (exception : ApiException){
+                    if (loading.isShowing)
+                        loading.cancel()
+                    Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                }catch (exception : NoInternetException){
+                    if (loading.isShowing)
+                        loading.cancel()
+                    Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                }catch (exception : ErrorBodyException){
+                    if (loading.isShowing)
+                        loading.cancel()
+                    Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                }catch (exception : Exception){
+                    if (loading.isShowing)
+                        loading.cancel()
+                    Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+        viewModel.services.removeObservers(viewLifecycleOwner)
+        viewModel.services.observe(viewLifecycleOwner){
+            if (loading.isShowing)
+                loading.cancel()
+            var services = arrayListOf<String>()
+            it?.forEach {
+                services.add(it.itemName!!)
+            }
+            val aa = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, services)
+            // Set layout to use when the list of choices appear
+            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Set Adapter to Spinner
+            binding.mySpinner.adapter = aa
         }
         binding.edtName.setOnClickListener {
             var action = AddNewJobFragmentDirections.actionNewJobToCustomerListFragment()
@@ -193,7 +241,7 @@ class AddNewJobFragment : Fragment() , KodeinAware {
         }
         viewModel.createJobResponse.removeObservers(viewLifecycleOwner)
         viewModel.createJobResponse.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(),it.message?:"Success",Toast.LENGTH_LONG).show()
             if (loading.isShowing)
                 loading.cancel()
         }
@@ -218,5 +266,13 @@ class AddNewJobFragment : Fragment() , KodeinAware {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
     }
 }
