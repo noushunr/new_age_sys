@@ -98,7 +98,14 @@ class PostListFragment : Fragment(), KodeinAware {
 //            }
         }
         binding?.floatingActionButton?.setOnClickListener {
+            Toast.makeText(requireContext(), "Successfully logout", Toast.LENGTH_LONG).show()
             var action = PostListFragmentDirections.actionPostListFragmentToPostDetailFragment()
+            navController.navigate(action)
+        }
+        binding.ivLogout.setOnClickListener {
+            var sessionUtils = SessionUtils(requireContext())
+            sessionUtils.saveLoggedIn(false)
+            var action = PostListFragmentDirections.actionPostListFragmentToLoginFragment()
             navController.navigate(action)
         }
         viewModel.jobOrders.removeObservers(viewLifecycleOwner)

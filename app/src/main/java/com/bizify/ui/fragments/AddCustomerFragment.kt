@@ -81,25 +81,25 @@ class AddCustomerFragment : Fragment(), KodeinAware {
                     "Please enter the name",
                     Toast.LENGTH_LONG
                 ).show()
-                binding.etEmail.text.toString().isNullOrEmpty() -> Toast.makeText(
-                    requireContext(),
-                    "Please enter the email address",
-                    Toast.LENGTH_LONG
-                ).show()
+//                binding.etEmail.text.toString().isNullOrEmpty() -> Toast.makeText(
+//                    requireContext(),
+//                    "Please enter the email address",
+//                    Toast.LENGTH_LONG
+//                ).show()
                 binding.etMobile.text.toString().isNullOrEmpty() -> Toast.makeText(
                     requireContext(),
                     "Please enter the mobile number",
+                    Toast.LENGTH_LONG
+                ).show()
+                binding.etMobile.text.toString().trim().length != 10 -> Toast.makeText(
+                    requireContext(),
+                    "Please enter a valid phone number",
                     Toast.LENGTH_LONG
                 ).show()
                 !Patterns.EMAIL_ADDRESS.matcher(binding.etEmail?.text.toString().trim())
                     .matches() -> Toast.makeText(
                     requireContext(),
                     "Please enter a valid email address",
-                    Toast.LENGTH_LONG
-                ).show()
-                binding.etMobile.text.toString().trim().length != 10 -> Toast.makeText(
-                    requireContext(),
-                    "Please enter a valid phone number",
                     Toast.LENGTH_LONG
                 ).show()
                 else -> {
@@ -154,7 +154,7 @@ class AddCustomerFragment : Fragment(), KodeinAware {
         viewModel.addCustomerResponse.observe(viewLifecycleOwner) {
             if (loading.isShowing)
                 loading.cancel()
-            Toast.makeText(requireContext(), it?.message?:"Success", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), it?.message?:"Customer added successfully", Toast.LENGTH_LONG).show()
             navController.popBackStack()
         }
         return binding.root

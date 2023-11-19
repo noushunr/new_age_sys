@@ -22,6 +22,12 @@
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true"
             />
+        <action
+            android:id="@+id/action_SplashFragment_to_postFragment"
+            app:destination="@id/post_list"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
     <fragment android:name="com.bizify.ui.fragments.PostListFragment"
@@ -32,6 +38,12 @@
             android:id="@+id/action_postListFragment_to_postDetailFragment"
             app:destination="@id/addJobFragment"
             app:popUpTo="@id/post_list"
+            />
+        <action
+            android:id="@+id/action_postListFragment_to_LoginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/post_list"
+            app:popUpToInclusive="true"
             />
     </fragment>
     <fragment android:name="com.bizify.ui.fragments.PostDetailFragment"

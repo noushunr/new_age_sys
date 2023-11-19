@@ -1,6 +1,8 @@
 package com.bizify.ui.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -117,14 +119,29 @@ class CustomerListFragment : Fragment(), KodeinAware, SearchView.OnQueryTextList
                 loading.cancel()
             if (it.isNullOrEmpty()){
                 binding.idSV.visibility = View.GONE
+                binding.edtSearch.visibility = View.GONE
             } else{
-                binding.idSV.visibility = View.VISIBLE
+                binding.idSV.visibility = View.GONE
+                binding.edtSearch.visibility = View.VISIBLE
             }
             adapter.submitList(it as MutableList<Customers>?)
         }
 
         adapter.submitList(mutableListOf())
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                adapter.filter.filter(binding.edtSearch.text.toString())
+            }
+
+        })
         return binding.root
     }
 
@@ -149,12 +166,14 @@ class CustomerListFragment : Fragment(), KodeinAware, SearchView.OnQueryTextList
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        adapter.filter.filter(query)
+        if (this::adapter.isInitialized)
+            adapter.filter.filter(query)
         return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        adapter.filter.filter(newText)
+        if (this::adapter.isInitialized)
+            adapter.filter.filter(newText)
         return false
     }
 }

@@ -60,9 +60,9 @@ class SplashFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(3000)
             var sessionUtils = SessionUtils(requireContext())
-            var token = sessionUtils.token
-            if (token.isNullOrEmpty() ) {
-                val action = SplashFragmentDirections.actionSplashFragmentToIntroFragment()
+            var token = sessionUtils.isRemember
+            if (token) {
+                val action = SplashFragmentDirections.actionSplashFragmentToPostFragment()
                 navController.navigate(action)
             }else {
                 val action = SplashFragmentDirections.actionSplashFragmentToPostListFragment()

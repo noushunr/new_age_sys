@@ -8,10 +8,12 @@
             name="post"
             type="com.bizify.data.model.CreateJobResponse" />
     </data>
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        app:cardCornerRadius="5dp"
+        android:layout_margin="5dp"
         android:orientation="vertical"
         >
 
@@ -66,8 +68,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:visibility="gone"
             android:background="#CAC7C7">
 
         </View>
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

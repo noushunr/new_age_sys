@@ -54,4 +54,12 @@ class SessionUtils {
 
     val BASE_URL: String?
         get() = preferences!!.getString("base_url", "http://3.87.213.2:80/")
+
+    fun saveLoggedIn(isRemember: Boolean) {
+        preferences!!.edit().putBoolean("isRemembered", isRemember).apply()
+    }
+
+
+    val isRemember: Boolean
+        get() = preferences!!.getBoolean("isRemembered", false)
 }

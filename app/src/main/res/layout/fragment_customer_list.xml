@@ -41,22 +41,42 @@
 
             </TextView>
         </RelativeLayout>
-
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/edit_text_bg"
+            android:hint="Search by customer name"
+            android:layout_below="@+id/app_bar"
+            android:drawablePadding="@dimen/dimen10dp"
+            android:drawableStart="@drawable/ic_search_new"
+            android:inputType="textCapSentences"
+            android:padding="15dp"
+            android:textColorHint="#677097"
+            android:textSize="16sp"
+            />
         <androidx.appcompat.widget.SearchView
             android:id="@+id/idSV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/app_bar"
-            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/edit_text_bg"
-
+            android:iconifiedByDefault="false"
             android:padding="4dp"
-            android:queryHint="Search"
-            android:visibility="visible"
+            android:queryHint="Search by customer name or mobile"
+            android:visibility="gone"
+            app:iconifiedByDefault="false"
             app:closeIcon="@drawable/ic_close"
             app:queryBackground="@android:color/transparent"
-            app:searchIcon="@drawable/ic_search_new"
-            android:iconifiedByDefault="false">
+            app:searchIcon="@drawable/ic_search_new">
 
         </androidx.appcompat.widget.SearchView>
 
@@ -64,7 +84,7 @@
             android:id="@+id/rv_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/idSV"
+            android:layout_below="@+id/edtSearch"
             android:layout_marginTop="@dimen/dimen10dp"
             android:nestedScrollingEnabled="false"
             android:scrollbars="none"

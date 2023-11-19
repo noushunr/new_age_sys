@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View
 import android.view.ViewGroup;
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bizify.data.model.AodpList
 import com.bizify.data.model.Customers
@@ -23,20 +25,21 @@ class VehicleAdapter(
     private var items: MutableList<Vehicles>,
     private val postClick: VehicleClick
 ) :
-    RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
-
+    RecyclerView.Adapter<VehicleAdapter.ViewHolder>(), Filterable {
+    var filterItems : MutableList<Vehicles> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder.from(parent)
 
-    fun submitList(items: List<Vehicles>?){
+    fun submitList(items: MutableList<Vehicles>?){
         this.items?.clear()
         this.items?.addAll(items!!)
+        filterItems = items!!
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        var item = items!![position]
+        var item = filterItems!![position]
         holder.binding.title.text = item.veh_Name
         if (item.veh_Brand.isNullOrEmpty() || item.veh_Brand.isNullOrBlank()){
             holder.binding.tvBrand.visibility = View.GONE
@@ -64,7 +67,7 @@ class VehicleAdapter(
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return filterItems.size
     }
 
     class ViewHolder(val binding : ItemVehicleBinding) : RecyclerView.ViewHolder(binding?.root!!) {
@@ -77,6 +80,35 @@ class VehicleAdapter(
         }
 
 
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint?.toString() ?: ""
+                if (charString.isEmpty()) filterItems = items else {
+                    val filteredList = ArrayList<Vehicles>()
+                    items
+                        .filter {
+                            (it.registartion?.contains(constraint!!,ignoreCase = true)!!)
+
+                        }
+                        .forEach { filteredList.add(it) }
+                    filterItems = filteredList
+
+                }
+                return FilterResults().apply { values = filterItems }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                filterItems = if (results?.values == null)
+                    ArrayList()
+                else
+                    results.values as ArrayList<Vehicles>
+                notifyDataSetChanged()
+            }
+        }
     }
 
 }

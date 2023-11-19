@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioGroup.OnCheckedChangeListener
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -42,6 +43,7 @@ class LoginFragment : Fragment(), KodeinAware {
     lateinit var binding: FragmentLoginBinding
     lateinit var loading : CustomProgressDialog
     private lateinit var navController: NavController
+    private var isRemembered = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -62,6 +64,9 @@ class LoginFragment : Fragment(), KodeinAware {
         binding.tvChangeUrl.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToConnectionTestFragment()
             navController.navigate(action)
+        }
+        binding.checkbox.setOnCheckedChangeListener { _, isChecked ->
+            isRemembered = isChecked
         }
         binding.btnLogin.setOnClickListener{
             var userName = binding.email.text.toString()
@@ -111,6 +116,7 @@ class LoginFragment : Fragment(), KodeinAware {
                 var sessions = SessionUtils(requireContext())
                 sessions.saveToken(it.token)
                 sessions.saveUserId(it.id.toString())
+                sessions.saveLoggedIn(isRemembered)
                 Toast.makeText(requireContext(),"Login Success",Toast.LENGTH_LONG).show()
                 var action = LoginFragmentDirections.actionLoginFragmentToPostFragment()
                 navController.navigate(action)

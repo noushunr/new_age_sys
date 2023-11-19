@@ -204,7 +204,14 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
                     refNo = "",
                     registartion = registration,
                     userID = sessions.userId?.toInt(),
-                    tech_Inspection = binding.edtInspection.text.toString()
+                    tech_Inspection = binding.edtInspection.text.toString(),
+                    carTopRemarks = binding.carTopRemarks.text.toString(),
+                    carRightRemarks = binding.carRightRemarks.text.toString(),
+                    carLeftRemarks = binding.carLeftRemarks.text.toString(),
+                    carBottomRemarks = binding.carBottomRemarks.text.toString(),
+                    carFrontRemarks = binding.carFrontRemarks.text.toString(),
+                    carRearRemarks = binding.carRearRemarks.text.toString()
+
                 )
 
                 val gson = Gson()
@@ -241,13 +248,36 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
         }
         viewModel.createJobResponse.removeObservers(viewLifecycleOwner)
         viewModel.createJobResponse.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(),it.message?:"Success",Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(),it.message?:"Job Order created successfully",Toast.LENGTH_LONG).show()
+            if (it.message.isNullOrEmpty()){
+                clear()
+            }
             if (loading.isShowing)
                 loading.cancel()
         }
         return binding.root
     }
 
+    fun clear(){
+        custId = 0
+        registration = ""
+        binding.edtName.setText("")
+        binding.etVehicle.setText("")
+        binding.etVehicleName.setText("")
+        binding.edtType.setText("")
+        binding.edtComplaint.setText("")
+        binding.edtOdoNo.setText("")
+        binding.edtInspection.setText("")
+        binding.carFrontRemarks.setText("")
+        binding.carBottomRemarks.setText("")
+        binding.carLeftRemarks.setText("")
+        binding.carRearRemarks.setText("")
+        binding.carRightRemarks.setText("")
+        binding.carTopRemarks.setText("")
+        binding.scrollView.post {
+            binding.scrollView.smoothScrollTo(0,binding.edtName.top)
+        }
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
