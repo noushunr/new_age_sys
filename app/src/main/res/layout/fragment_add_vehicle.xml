@@ -58,7 +58,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/app_bar" />
+                app:layout_constraintTop_toBottomOf="@+id/etReg" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etBrand"
@@ -113,7 +113,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etModel" />
+                app:layout_constraintTop_toBottomOf="@+id/app_bar" />
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etEngine"
                 android:layout_width="0dp"
@@ -130,7 +130,7 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etReg" />
+                app:layout_constraintTop_toBottomOf="@+id/etModel" />
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etChasis"
                 android:layout_width="0dp"

@@ -53,6 +53,9 @@ interface MyApi {
     @GET("api/VehicleJoborder/SearchServices")
     suspend fun getServiceList(@Header("Authorization") authHeader : String): Response<List<Services>>
 
+    @GET("api/VehicleJoborder/SearchMaterial")
+    suspend fun getMaterialList(@Header("Authorization") authHeader : String): Response<List<Services>>
+
     companion object {
         operator fun invoke(
             context: Context,

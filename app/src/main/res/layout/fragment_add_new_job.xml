@@ -107,20 +107,103 @@
                 app:layout_constraintStart_toStartOf="parent"
 
                 app:layout_constraintTop_toBottomOf="@+id/etVehicle" />
-            <Spinner
-                android:id="@+id/mySpinner"
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:spinnerMode="dialog"
                 android:layout_height="wrap_content"
+                android:id="@+id/ll_services"
+                android:orientation="vertical"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="24dp"
-                android:background="@drawable/edit_text_bg"
-                android:padding="15dp"
+                android:paddingBottom="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/edit_text_bg"
+                app:layout_constraintTop_toBottomOf="@+id/etVehicleName">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etVehicleName"
+                    android:nestedScrollingEnabled="false"
 
-                app:layout_constraintTop_toBottomOf="@+id/etVehicleName"/>
+                    android:paddingBottom="@dimen/dimen10dp"
+                    android:scrollbars="none"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="0"
+                    tools:listitem="@layout/item_services">
+
+                </androidx.recyclerview.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/tvServices"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/edit_text_bg"
+                    android:backgroundTint="@color/purple_200"
+                    android:padding="10dp"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:text="Add More Services"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etVehicleName"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_materials"
+                android:orientation="vertical"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/edit_text_bg"
+                app:layout_constraintTop_toBottomOf="@+id/ll_services">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_materials"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etVehicleName"
+                    android:nestedScrollingEnabled="false"
+
+                    android:paddingBottom="@dimen/dimen10dp"
+                    android:scrollbars="none"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="0"
+                    tools:listitem="@layout/item_services">
+
+                </androidx.recyclerview.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/tvMaterials"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="24dp"
+                    android:background="@drawable/edit_text_bg"
+                    android:backgroundTint="@color/purple_200"
+                    android:padding="10dp"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:text="Add More Materials"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etVehicleName"/>
+            </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtType"
@@ -140,7 +223,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintTop_toBottomOf="@+id/mySpinner" />
+                app:layout_constraintTop_toBottomOf="@+id/ll_materials" />
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtOdoNo"
                 android:layout_width="0dp"
@@ -160,6 +243,19 @@
                 app:layout_constraintStart_toStartOf="parent"
 
                 app:layout_constraintTop_toBottomOf="@+id/edtType" />
+            <Spinner
+                android:id="@+id/mySpinner"
+                android:layout_width="match_parent"
+                android:spinnerMode="dropdown"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:padding="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edtOdoNo"/>
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtComplaint"
                 android:layout_width="0dp"
@@ -179,7 +275,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintTop_toBottomOf="@+id/edtOdoNo" />
+                app:layout_constraintTop_toBottomOf="@+id/mySpinner" />
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtInspection"
                 android:layout_width="0dp"

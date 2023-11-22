@@ -32,6 +32,7 @@ class PostListAdapter(
 
         var item = items!![position]
         holder.binding.post = item
+        holder.binding.llMain.setOnClickListener { postClick.onItemClick(item) }
 //        holder.binding.tvDate.text = formatDate(item.date!!)
 //        Glide.with(mContext)
 //            .load(item.url)

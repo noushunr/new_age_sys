@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bizify.data.model.AodpList
+import com.bizify.data.model.CreateJobResponse
 import com.bizify.databinding.FragmentPostListBinding
 import com.bizify.interfaces.PostClick
 import com.bizify.ui.adapter.PostListAdapter
@@ -65,8 +66,11 @@ class PostListFragment : Fragment(), KodeinAware {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
         var adapter = PostListAdapter(requireContext(), mutableListOf(), object : PostClick {
-            override fun onItemClick(aodpList: AodpList) {
-
+            override fun onItemClick(jobResponse: CreateJobResponse) {
+                var action = PostListFragmentDirections.actionPostListFragmentToPostDetailFragment(
+                    jobResponse
+                )
+                navController.navigate(action)
             }
 
         })
@@ -98,11 +102,14 @@ class PostListFragment : Fragment(), KodeinAware {
 //            }
         }
         binding?.floatingActionButton?.setOnClickListener {
-            Toast.makeText(requireContext(), "Successfully logout", Toast.LENGTH_LONG).show()
-            var action = PostListFragmentDirections.actionPostListFragmentToPostDetailFragment()
+
+            var action = PostListFragmentDirections.actionPostListFragmentToPostDetailFragment(
+                CreateJobResponse()
+            )
             navController.navigate(action)
         }
         binding.ivLogout.setOnClickListener {
+            Toast.makeText(requireContext(), "Successfully logout", Toast.LENGTH_LONG).show()
             var sessionUtils = SessionUtils(requireContext())
             sessionUtils.saveLoggedIn(false)
             var action = PostListFragmentDirections.actionPostListFragmentToLoginFragment()

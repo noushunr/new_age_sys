@@ -25,7 +25,7 @@
         <action
             android:id="@+id/action_SplashFragment_to_postFragment"
             app:destination="@id/post_list"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true"
             />
     </fragment>
@@ -85,6 +85,9 @@
         android:name="com.bizify.ui.fragments.AddNewJobFragment"
         android:label="Login Fragment"
         tools:layout="@layout/fragment_add_new_job">
+        <argument
+            android:name="jobItem"
+            app:argType="com.bizify.data.model.CreateJobResponse"/>
         <action
             android:id="@+id/action_NewJob_to_customerListFragment"
             app:destination="@id/customer_list"

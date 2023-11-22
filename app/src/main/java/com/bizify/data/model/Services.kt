@@ -13,4 +13,10 @@ data class Services(
     @SerializedName("unitPrice")
     @Expose
     var unitPrice: String? = null,
+    @SerializedName("unitName")
+    @Expose
+    var unitName: String? = null,
+    @SerializedName("quantity")
+    @Expose
+    var quantity: String = "1",
 )

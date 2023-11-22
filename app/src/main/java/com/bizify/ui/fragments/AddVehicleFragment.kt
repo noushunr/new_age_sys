@@ -91,18 +91,18 @@ class AddVehicleFragment : Fragment()  , KodeinAware {
         })
         binding.btnAdd.setOnClickListener {
             when {
-                binding.edtName.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the name",
-                    Toast.LENGTH_LONG).show()
-                binding.etBrand.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the vehicle brand",
-                    Toast.LENGTH_LONG).show()
-                binding.etModel.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the vehicle model",
-                    Toast.LENGTH_LONG).show()
+//                binding.edtName.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the name",
+//                    Toast.LENGTH_LONG).show()
+//                binding.etBrand.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the vehicle brand",
+//                    Toast.LENGTH_LONG).show()
+//                binding.etModel.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the vehicle model",
+//                    Toast.LENGTH_LONG).show()
                 binding.etReg.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the registration number",
                     Toast.LENGTH_LONG).show()
-                binding.etEngine.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the engine number",
-                    Toast.LENGTH_LONG).show()
-                binding.etChasis.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the chasis number",
-                    Toast.LENGTH_LONG).show()
+//                binding.etEngine.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the engine number",
+//                    Toast.LENGTH_LONG).show()
+//                binding.etChasis.text.toString().isNullOrEmpty() -> Toast.makeText(requireContext(),"Please enter the chasis number",
+//                    Toast.LENGTH_LONG).show()
 
                 else -> {
                     loading.show(getString(R.string.text_loading))

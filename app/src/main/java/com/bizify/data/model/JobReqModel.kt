@@ -6,11 +6,11 @@ data class JobReqModel(
     @field:SerializedName("cust_Id")
     var cust_Id: Int? = 0,
     @field:SerializedName("service_ID")
-    var service_ID:Int?=0,
+    var service_ID: Int? = 0,
     @field:SerializedName("start_Date")
     var start_Date: String? = null,
     @field:SerializedName("v_Date")
-    var v_Date:String? = null,
+    var v_Date: String? = null,
     @field:SerializedName("jobType")
     var jobType: String? = null,
     @field:SerializedName("odoMeter")
@@ -42,6 +42,10 @@ data class JobReqModel(
     @field:SerializedName("carBottom_Remarks")
     var carBottomRemarks: String? = "",
     @field:SerializedName("carFront_Remarks")
-    var carFrontRemarks: String? = ""
+    var carFrontRemarks: String? = "",
+    @field:SerializedName("services")
+    var services: List<Services>? = listOf(),
+    @field:SerializedName("materials")
+    var materials: List<Services>? = listOf(),
 ) {
 }

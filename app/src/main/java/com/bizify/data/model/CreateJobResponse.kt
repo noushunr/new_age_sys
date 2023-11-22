@@ -2,12 +2,14 @@ package com.bizify.data.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
 
 data class CreateJobResponse(
     @field:SerializedName("cust_Id")
     var cust_Id: Int? = 0,
     @field:SerializedName("service_ID")
-    var service_ID:Int?=1,
+    var service_ID:Int?=0,
     @field:SerializedName("start_Date")
     var start_Date: String? = null,
     @field:SerializedName("v_Date")
@@ -41,4 +43,16 @@ data class CreateJobResponse(
     @SerializedName("userName")
     @Expose
     var userName: String? = null,
-)
+    @field:SerializedName("carTop_Remarks")
+    var carTopRemarks: String? = "",
+    @field:SerializedName("carRight_Remarks")
+    var carRightRemarks: String? = "",
+    @field:SerializedName("carLeft_Remarks")
+    var carLeftRemarks: String? = "",
+    @field:SerializedName("carRear_Remarks")
+    var carRearRemarks: String? = "",
+    @field:SerializedName("carBottom_Remarks")
+    var carBottomRemarks: String? = "",
+    @field:SerializedName("carFront_Remarks")
+    var carFrontRemarks: String? = "",
+) : Serializable
