@@ -11,24 +11,35 @@
         android:orientation="vertical"
         tools:context="com.bizify.ui.fragments.PostListFragment">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/app_bar"
             android:background="@color/purple_200">
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Job Orders"
                 android:textSize="16sp"
                 android:padding="15dp"
+                android:layout_centerInParent="true"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textStyle="bold">
 
             </TextView>
-        </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_logout"
+                android:src="@drawable/ic_logout"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/dimen10dp">
+
+            </ImageView>
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list"
@@ -37,23 +48,25 @@
             android:layout_below="@+id/app_bar"
             android:nestedScrollingEnabled="false"
             android:scrollbars="none"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
             tools:listitem="@layout/item_post">
 
         </androidx.recyclerview.widget.RecyclerView>
+
         <TextView
+            android:id="@+id/tv_no_orders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_no_orders"
-            android:text="No Job Orders"
-            android:textSize="16sp"
-            android:padding="15dp"
             android:layout_centerInParent="true"
-            android:textColor="@color/black"
             android:layout_gravity="center"
             android:gravity="center"
+            android:padding="15dp"
+            android:visibility="gone"
+            android:text="No Job Orders"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             android:textStyle="bold">
 
         </TextView>

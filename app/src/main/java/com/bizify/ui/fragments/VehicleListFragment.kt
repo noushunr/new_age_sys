@@ -1,11 +1,14 @@
 package com.bizify.ui.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -37,7 +40,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [VehicleListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class VehicleListFragment : Fragment() , KodeinAware {
+class VehicleListFragment : Fragment() , KodeinAware, SearchView.OnQueryTextListener {
     override val kodein by kodein()
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -47,6 +50,7 @@ class VehicleListFragment : Fragment() , KodeinAware {
     private val factory: ViewModelFactory by instance()
     lateinit var loading : CustomProgressDialog
     private lateinit var navController: NavController
+    lateinit var adapter : VehicleAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -72,6 +76,7 @@ class VehicleListFragment : Fragment() , KodeinAware {
         loading = CustomProgressDialog(context)
 
         viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+        binding.idSV.setOnQueryTextListener(this)
         var adapter = VehicleAdapter(requireContext(), mutableListOf(),object : VehicleClick {
             override fun onItemClick(customers: Vehicles) {
 
@@ -115,11 +120,25 @@ class VehicleListFragment : Fragment() , KodeinAware {
         viewModel.vehiclesList.observe(viewLifecycleOwner){
             if (loading.isShowing)
                 loading.cancel()
-            adapter.submitList(it)
+            adapter.submitList(it as MutableList<Vehicles>?)
         }
 
         adapter.submitList(mutableListOf())
 
+        binding.edtSearch.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                adapter.filter.filter(binding.edtSearch.text.toString())
+            }
+
+        })
         return binding.root
     }
 
@@ -141,5 +160,17 @@ class VehicleListFragment : Fragment() , KodeinAware {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (this::adapter.isInitialized)
+            adapter.filter.filter(query)
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (this::adapter.isInitialized)
+            adapter.filter.filter(newText)
+        return false
     }
 }

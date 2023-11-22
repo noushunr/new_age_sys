@@ -1,11 +1,14 @@
 package com.bizify.ui.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -36,7 +39,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CustomerListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CustomerListFragment : Fragment(), KodeinAware {
+class CustomerListFragment : Fragment(), KodeinAware, SearchView.OnQueryTextListener {
     override val kodein by kodein()
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -46,6 +49,7 @@ class CustomerListFragment : Fragment(), KodeinAware {
     private val factory: ViewModelFactory by instance()
     lateinit var loading : CustomProgressDialog
     private lateinit var navController: NavController
+    private lateinit var adapter : CustomerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -70,7 +74,8 @@ class CustomerListFragment : Fragment(), KodeinAware {
             val action = CustomerListFragmentDirections.actionCustomerListToAddCustomerFragment()
             navController.navigate(action)
         }
-        var adapter = CustomerAdapter(requireContext(), mutableListOf(),object : CustClick {
+        binding.idSV.setOnQueryTextListener(this)
+        adapter = CustomerAdapter(requireContext(), mutableListOf(),object : CustClick {
             override fun onItemClick(customers: Customers) {
 
                 navController.previousBackStackEntry?.savedStateHandle?.set("id", customers.id)
@@ -112,11 +117,31 @@ class CustomerListFragment : Fragment(), KodeinAware {
         viewModel.customerList.observe(viewLifecycleOwner){
             if (loading.isShowing)
                 loading.cancel()
-            adapter.submitList(it)
+            if (it.isNullOrEmpty()){
+                binding.idSV.visibility = View.GONE
+                binding.edtSearch.visibility = View.GONE
+            } else{
+                binding.idSV.visibility = View.GONE
+                binding.edtSearch.visibility = View.VISIBLE
+            }
+            adapter.submitList(it as MutableList<Customers>?)
         }
 
         adapter.submitList(mutableListOf())
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                adapter.filter.filter(binding.edtSearch.text.toString())
+            }
+
+        })
         return binding.root
     }
 
@@ -138,5 +163,17 @@ class CustomerListFragment : Fragment(), KodeinAware {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (this::adapter.isInitialized)
+            adapter.filter.filter(query)
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (this::adapter.isInitialized)
+            adapter.filter.filter(newText)
+        return false
     }
 }

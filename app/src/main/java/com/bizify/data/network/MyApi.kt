@@ -50,6 +50,9 @@ interface MyApi {
     @POST("api/Vehicle/AddVehicle")
     suspend fun addVehicle(@Body requestBody: RequestBody,@Header("Authorization") authHeader : String): Response<Vehicles>
 
+    @GET("api/VehicleJoborder/SearchServices")
+    suspend fun getServiceList(@Header("Authorization") authHeader : String): Response<List<Services>>
+
     companion object {
         operator fun invoke(
             context: Context,

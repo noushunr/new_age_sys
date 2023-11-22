@@ -5,6 +5,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
         android:background="@color/white">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -106,6 +107,21 @@
                 app:layout_constraintStart_toStartOf="parent"
 
                 app:layout_constraintTop_toBottomOf="@+id/etVehicle" />
+            <Spinner
+                android:id="@+id/mySpinner"
+                android:layout_width="match_parent"
+                android:spinnerMode="dialog"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:padding="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/etVehicleName"/>
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtType"
                 android:layout_width="0dp"
@@ -124,7 +140,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
-                app:layout_constraintTop_toBottomOf="@+id/etVehicleName" />
+                app:layout_constraintTop_toBottomOf="@+id/mySpinner" />
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edtOdoNo"
                 android:layout_width="0dp"
@@ -185,6 +201,131 @@
 
                 app:layout_constraintTop_toBottomOf="@+id/edtComplaint" />
 
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/carTopRemarks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:gravity="start"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Car Top Remarks"
+                android:inputType="textCapSentences"
+                android:padding="15dp"
+                android:textColorHint="#677097"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/edtInspection" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/carRightRemarks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:gravity="start"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Car Right Remarks"
+                android:inputType="textCapSentences"
+                android:padding="15dp"
+                android:textColorHint="#677097"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/carTopRemarks" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/carLeftRemarks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:gravity="start"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Car Left Remarks"
+                android:inputType="textCapSentences"
+                android:padding="15dp"
+                android:textColorHint="#677097"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/carRightRemarks" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/carRearRemarks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:gravity="start"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Car Rear Remarks"
+                android:inputType="textCapSentences"
+                android:padding="15dp"
+                android:textColorHint="#677097"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/carLeftRemarks" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/carBottomRemarks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:gravity="start"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Car Bottom Remarks"
+                android:inputType="textCapSentences"
+                android:padding="15dp"
+                android:textColorHint="#677097"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/carRearRemarks" />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/carFrontRemarks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="100dp"
+                android:gravity="start"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="Car Front Remarks"
+                android:inputType="textCapSentences"
+                android:padding="15dp"
+                android:textColorHint="#677097"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/carBottomRemarks" />
+
             <Button
                 android:id="@+id/btn_add"
                 android:layout_width="match_parent"
@@ -198,7 +339,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edtInspection">
+                app:layout_constraintTop_toBottomOf="@+id/carFrontRemarks">
 
             </Button>
 

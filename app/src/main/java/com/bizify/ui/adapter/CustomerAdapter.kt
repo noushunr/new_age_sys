@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View
 import android.view.ViewGroup;
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bizify.data.model.AodpList
 import com.bizify.data.model.Customers
@@ -20,20 +22,22 @@ class CustomerAdapter(
     private var items: MutableList<Customers>,
     private val postClick: CustClick
 ) :
-    RecyclerView.Adapter<CustomerAdapter.ViewHolder>() {
+    RecyclerView.Adapter<CustomerAdapter.ViewHolder>(), Filterable {
 
+    var filterItems : MutableList<Customers> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder.from(parent)
 
-    fun submitList(items: List<Customers>?){
+    fun submitList(items: MutableList<Customers>?){
         this.items?.clear()
         this.items?.addAll(items!!)
+        filterItems = items!!
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        var item = items!![position]
+        var item = filterItems!![position]
         holder.binding.title.text = item.csName
         if (item.email.isNullOrEmpty() || item.email.isNullOrBlank()){
             holder.binding.tvEmail.visibility = View.GONE
@@ -55,7 +59,7 @@ class CustomerAdapter(
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return filterItems.size
     }
 
     class ViewHolder(val binding : ItemCustomerBinding) : RecyclerView.ViewHolder(binding?.root!!) {
@@ -68,6 +72,35 @@ class CustomerAdapter(
         }
 
 
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint?.toString() ?: ""
+                if (charString.isEmpty()) filterItems = items else {
+                    val filteredList = ArrayList<Customers>()
+                    items
+                        .filter {
+                            (it.csName?.contains(constraint!!,ignoreCase = true)!!)
+
+                        }
+                        .forEach { filteredList.add(it) }
+                    filterItems = filteredList
+
+                }
+                return FilterResults().apply { values = filterItems }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                filterItems = if (results?.values == null)
+                    ArrayList()
+                else
+                    results.values as ArrayList<Customers>
+                notifyDataSetChanged()
+            }
+        }
     }
 
 }
