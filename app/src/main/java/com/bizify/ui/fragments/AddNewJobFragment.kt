@@ -38,7 +38,6 @@ import org.json.JSONObject
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
-import java.text.FieldPosition
 import java.time.LocalDateTime
 
 // TODO: Rename parameter arguments, choose names that match
@@ -97,12 +96,49 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentAddNewJobBinding.inflate(layoutInflater)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
         loading = CustomProgressDialog(context)
+        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
         jobResponse = args.jobItem
+        adapter = ServiceListAdapter(requireContext(), selectedService,object : ServiceItem {
+            override fun onItemAdd(position: Int, quantity: String,isQuantity: Boolean,unitPriceName: String) {
+                showEditTextDialog(requireContext(),isQuantity,position,quantity,unitPriceName)
+//                adapter.notifyItemChanged(position)
+            }
+
+            override fun onItemRemove(position: Int) {
+                selectedService.removeAt(position)
+                adapter.notifyItemRemoved(position)
+            }
+
+
+        })
+        binding?.rvList?.adapter = adapter
+        adapter.submitList(selectedService)
+        materialsAdapter = ServiceListAdapter(requireContext(), selectedMaterials,object : ServiceItem {
+            override fun onItemAdd(position: Int, quantity: String,isQuantity: Boolean,unitPriceName: String) {
+                showMaterialsEditTextDialog(requireContext(),isQuantity,position,quantity,unitPriceName)
+//                adapter.notifyItemChanged(position)
+            }
+
+            override fun onItemRemove(position: Int) {
+                selectedMaterials.removeAt(position)
+                materialsAdapter.notifyItemRemoved(position)
+            }
+
+
+        })
+        binding?.rvMaterials?.adapter = materialsAdapter
+        materialsAdapter.submitList(selectedMaterials)
         if (jobResponse.service_ID!! >0){
             serviceId = jobResponse.service_ID!!
-            binding.edtName.setText("${jobResponse.cust_Id!!}")
+            binding.edtName.setText("${jobResponse.customer!!}")
             binding.etVehicle.setText(jobResponse.registartion?:"")
             binding.edtType.setText(jobResponse.jobType)
             binding.edtOdoNo.setText(jobResponse.odoMeter)
@@ -120,8 +156,13 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
             custId = jobResponse.cust_Id!!
             registration = jobResponse.registartion!!
             isUpdate = true
+            var sessions = SessionUtils(requireContext())
+            lifecycleScope.launch {
+                viewModel.getOrderServiceList(sessions.token!!, jobResponse.voucherNo!!)
+                viewModel.getOrderMaterialList(sessions.token!!, jobResponse.voucherNo!!)
+            }
         }
-        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+
         binding.ivBack.setOnClickListener{
             navController.popBackStack()
         }
@@ -133,6 +174,7 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
         binding.tvMaterials.setOnClickListener {
             showMaterials()
         }
+        statuses.clear()
         statuses.add("In Progress")
         statuses.add("Completed")
         val aa = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, statuses)
@@ -162,7 +204,12 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
                 }catch (exception : ErrorBodyException){
                     if (loading.isShowing)
                         loading.cancel()
-                    Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                    if (exception.message?.equals("401")!!){
+                        Toast.makeText(requireContext(), "Un Authorized, Please login again..", Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+
+                    }
                 }catch (exception : Exception){
                     if (loading.isShowing)
                         loading.cancel()
@@ -170,34 +217,7 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
                 }
             }
         }
-        adapter = ServiceListAdapter(requireContext(), selectedService,object : ServiceItem {
-            override fun onItemAdd(position: Int, quantity: String,isQuantity: Boolean,unitPriceName: String) {
-                showEditTextDialog(requireContext(),isQuantity,position,quantity,unitPriceName)
-//                adapter.notifyItemChanged(position)
-            }
 
-            override fun onItemRemove(position: Int) {
-                selectedService.removeAt(position)
-                adapter.notifyItemRemoved(position)
-            }
-
-
-        })
-        binding?.rvList?.adapter = adapter
-        materialsAdapter = ServiceListAdapter(requireContext(), selectedMaterials,object : ServiceItem {
-            override fun onItemAdd(position: Int, quantity: String,isQuantity: Boolean,unitPriceName: String) {
-                showMaterialsEditTextDialog(requireContext(),isQuantity,position,quantity,unitPriceName)
-//                adapter.notifyItemChanged(position)
-            }
-
-            override fun onItemRemove(position: Int) {
-                selectedMaterials.removeAt(position)
-                materialsAdapter.notifyItemRemoved(position)
-            }
-
-
-        })
-        binding?.rvMaterials?.adapter = materialsAdapter
 
 
         viewModel.services.observe(viewLifecycleOwner){
@@ -222,6 +242,26 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
                 materials.add(it.itemName!!)
             }
             viewModel.materials.removeObservers(viewLifecycleOwner)
+        }
+
+        viewModel.selectedServices.observe(viewLifecycleOwner){
+            selectedService.addAll(it)
+            if (loading.isShowing)
+                loading.cancel()
+
+            viewModel.selectedServices.removeObservers(viewLifecycleOwner)
+            adapter.notifyDataSetChanged()
+//            adapter.submitList(it)
+
+        }
+
+        viewModel.selectedMaterials.observe(viewLifecycleOwner){
+            selectedMaterials.addAll(it)
+            if (loading.isShowing)
+                loading.cancel()
+//            materialsAdapter.submitList(it)
+            materialsAdapter.notifyDataSetChanged()
+            viewModel.selectedMaterials.removeObservers(viewLifecycleOwner)
         }
 
         binding.edtName.setOnClickListener {
@@ -268,7 +308,8 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
             } else if (registration.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "Please choose a vehicle", Toast.LENGTH_LONG)
                     .show()
-            } else if (selectedService.isNullOrEmpty()) {
+            }
+            else if (selectedService.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "Please choose a service", Toast.LENGTH_LONG)
                     .show()
             }
@@ -295,7 +336,7 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
 //                ).show()
 //                binding.edtInspection.error = "Tech Inspection filed Cant be empty"
 //            }
-           else if (!isConnected(requireContext())){
+            else if (!isConnected(requireContext())){
                 Toast.makeText(requireContext(),"No internet connection",Toast.LENGTH_LONG).show()
             } else {
                 loading.show(getString(R.string.text_loading))
@@ -363,16 +404,18 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
         viewModel.createJobResponse.removeObservers(viewLifecycleOwner)
         viewModel.createJobResponse.observe(viewLifecycleOwner){
             var message = if (!isUpdate) "Job Order created successfully" else "Job Order updated successfully"
-            Toast.makeText(requireContext(),it.message?:message,Toast.LENGTH_LONG).show()
-            if (it.message.isNullOrEmpty()){
-                clear()
+            if(it.voucherNo.isNullOrEmpty()){
+                Toast.makeText(requireContext(),it.message?:"",Toast.LENGTH_LONG).show()
+            }else{
+                Toast.makeText(requireContext(),it.message?:message,Toast.LENGTH_LONG).show()
+                navController.popBackStack()
             }
+
             if (loading.isShowing)
                 loading.cancel()
-        }
-        return binding.root
-    }
 
+        }
+    }
     fun clear(){
         custId = 0
         registration = ""
@@ -445,7 +488,8 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
                 Toast.makeText(requireContext(),"The selected service is already added",Toast.LENGTH_LONG).show()
             }else {
                 selectedService.add(serviceList[which])
-                binding.rvList.setItemViewCacheSize(selectedService.size)
+                adapter
+//                binding.rvList.setItemViewCacheSize(selectedService.size)
                 adapter.notifyDataSetChanged()
             }
         }
@@ -464,7 +508,7 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
 
         // Set up the input
         val input = EditText(context)
-        input.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED + InputType.TYPE_CLASS_NUMBER
+        input.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
         input.setText(text)
         builder.setView(input)
 
@@ -524,7 +568,7 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
 
         // Set up the input
         val input = EditText(context)
-        input.inputType = InputType.TYPE_NUMBER_FLAG_SIGNED + InputType.TYPE_CLASS_NUMBER
+        input.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
         input.setText(text)
         builder.setView(input)
 

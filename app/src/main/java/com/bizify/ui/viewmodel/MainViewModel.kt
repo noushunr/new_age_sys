@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bizify.data.model.*
 import com.bizify.data.repositories.AodpListRepositories
+import com.bizify.interfaces.NetworkListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.MediaType
@@ -20,6 +21,7 @@ class MainViewModel(private val repository: AodpListRepositories) : ViewModel() 
     val appContext by lazy {
         repository.appContext
     }
+    var listener: NetworkListener? = null
     val email = ObservableField("")
     val password = ObservableField("")
     var error  = MutableLiveData<String>()
@@ -33,6 +35,9 @@ class MainViewModel(private val repository: AodpListRepositories) : ViewModel() 
     var jobOrders = MutableLiveData<List<CreateJobResponse>>()
     var services  = MutableLiveData<List<Services>>()
     var materials  = MutableLiveData<List<Services>>()
+
+    var selectedServices  = MutableLiveData<List<Services>>()
+    var selectedMaterials  = MutableLiveData<List<Services>>()
     suspend fun getList(){
         try {
             val response = repository.getList(
@@ -110,5 +115,14 @@ class MainViewModel(private val repository: AodpListRepositories) : ViewModel() 
     suspend fun getMaterialList(token: String){
         var response = repository.getMaterial(token)
         materials.postValue(response)
+    }
+
+    suspend fun getOrderServiceList(token: String,voucherNo:String){
+        var response = repository.getVoucherServices(token, voucherNo)
+        selectedServices.value = response
+    }
+    suspend fun getOrderMaterialList(token: String,voucherNo:String){
+        var response = repository.getVoucherMaterial(token, voucherNo)
+        selectedMaterials.postValue(response)
     }
 }

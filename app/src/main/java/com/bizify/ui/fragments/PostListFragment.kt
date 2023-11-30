@@ -1,18 +1,23 @@
 package com.bizify.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.bizify.R
 import com.bizify.data.model.AodpList
 import com.bizify.data.model.CreateJobResponse
+import com.bizify.data.model.Services
 import com.bizify.databinding.FragmentPostListBinding
+import com.bizify.interfaces.NetworkListener
 import com.bizify.interfaces.PostClick
 import com.bizify.ui.adapter.PostListAdapter
 import com.bizify.ui.viewmodel.MainViewModel
@@ -33,22 +38,45 @@ private const val ARG_PARAM2 = "param2"
  * Use the [PostListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PostListFragment : Fragment(), KodeinAware {
+class PostListFragment : Fragment(), KodeinAware, NetworkListener {
     override val kodein by kodein()
     private lateinit var viewModel: MainViewModel
     private val factory: ViewModelFactory by instance()
     private lateinit var binding: FragmentPostListBinding
     private lateinit var navController: NavController
-
+    lateinit var loading : CustomProgressDialog
+    lateinit var jobOrder : CreateJobResponse
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+        }
+        viewModel.selectedServices.removeObservers(this)
+        viewModel.selectedServices.observe(this){
+            if (loading.isShowing)
+                loading.cancel()
+
+
+            var services = ""
+            it?.forEach { it ->
+                if (services.isNotEmpty())
+                    services += ", "
+                services += "${it.itemName}"
+            }
+
+            val text = "Hi, ${jobOrder.customer} please note below detail \n" +
+                    "Job Card # ${jobOrder.voucherNo}\n" +
+                    "Plate No # ${jobOrder.registartion}\n" +
+                    "Service # $services"
+            val shareText = Intent(Intent.ACTION_SEND)
+            shareText.type = "text/plain"
+            shareText.putExtra(Intent.EXTRA_TEXT, text)
+            startActivity(Intent.createChooser(shareText, "Share Via"))
         }
     }
 
@@ -58,19 +86,29 @@ class PostListFragment : Fragment(), KodeinAware {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentPostListBinding.inflate(layoutInflater)
+        loading = CustomProgressDialog(context)
         navController = findNavController()
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+
         var adapter = PostListAdapter(requireContext(), mutableListOf(), object : PostClick {
             override fun onItemClick(jobResponse: CreateJobResponse) {
                 var action = PostListFragmentDirections.actionPostListFragmentToPostDetailFragment(
                     jobResponse
                 )
                 navController.navigate(action)
+            }
+
+            override fun onItemShare(job: CreateJobResponse) {
+
+//                viewModel.selectedServices.removeObservers(viewLifecycleOwner)
+                jobOrder = job
+
+                getServices(job)
             }
 
         })
@@ -82,20 +120,40 @@ class PostListFragment : Fragment(), KodeinAware {
 //            if (!isConnected(requireContext())) {
 //                Toast.makeText(requireContext(), "No internet connection", Toast.LENGTH_LONG).show()
 //            }else {
-                binding?.progressCircular?.visibility = View.VISIBLE
+               
+            loading.show(getString(R.string.text_loading))
                 try {
+                    binding.tvNoOrders.visibility = View.GONE
+                    binding.rvList.visibility = View.GONE
                     viewModel?.getJobOrders(sessionUtils.token!!)
                 }catch (exception : ApiException){
-                    binding?.progressCircular?.visibility = View.GONE
+                    if (loading.isShowing)
+                        loading.cancel()
+                   
                     Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
                 }catch (exception : NoInternetException){
-                    binding?.progressCircular?.visibility = View.GONE
+                    if (loading.isShowing)
+                        loading.cancel()
+                   
                     Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
                 }catch (exception : ErrorBodyException){
-                    binding?.progressCircular?.visibility = View.GONE
-                    Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                    if (loading.isShowing)
+                        loading.cancel()
+                   if (exception.message?.equals("401")!!){
+                       Toast.makeText(requireContext(), "UnAuthorized, Please login again..", Toast.LENGTH_LONG).show()
+
+                       var sessionUtils = SessionUtils(requireContext())
+                       sessionUtils.saveLoggedIn(false)
+                       var action = PostListFragmentDirections.actionPostListFragmentToLoginFragment()
+                       navController.navigate(action)
+                   }else{
+                       Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+
+                   }
                 }catch (exception : Exception){
-                    binding?.progressCircular?.visibility = View.GONE
+                    if (loading.isShowing)
+                        loading.cancel()
+                   
                     Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
                 }
 
@@ -116,8 +174,10 @@ class PostListFragment : Fragment(), KodeinAware {
             navController.navigate(action)
         }
         viewModel.jobOrders.removeObservers(viewLifecycleOwner)
-        viewModel.jobOrders.observe(viewLifecycleOwner) {
+        viewModel.jobOrders.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
+            if (loading.isShowing)
+                loading.cancel()
             if (it?.isNullOrEmpty()!!) {
                 binding.tvNoOrders.visibility = View.VISIBLE
                 binding.rvList.visibility = View.GONE
@@ -126,19 +186,67 @@ class PostListFragment : Fragment(), KodeinAware {
                 binding.rvList.visibility = View.VISIBLE
             }
         }
-        context?.let {
-            viewModel?.getSavedPosts()?.observe(viewLifecycleOwner) {
-                binding?.progressCircular?.visibility = View.GONE
 
-            }
-        }
+//        context?.let {
+//            viewModel?.getSavedPosts()?.observe(viewLifecycleOwner) {
+//               
+//                if (loading.isShowing)
+//                    loading.cancel()
+//            }
+//        }
         viewModel?.error?.observe(viewLifecycleOwner) {
-            binding?.progressCircular?.visibility = View.GONE
+           
             Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+            if (loading.isShowing)
+                loading.cancel()
         }
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.selectedServices.removeObservers(viewLifecycleOwner)
+    }
+    fun getServices(jobOrder:CreateJobResponse){
+        var sessions = SessionUtils(requireContext())
+        lifecycleScope.launch {
+            try {
+                loading.show(getString(R.string.text_loading))
+                viewModel.getOrderServiceList(sessions.token!!, jobOrder.voucherNo!!)
+
+            }catch (exception : ApiException){
+                if (loading.isShowing)
+                    loading.cancel()
+
+                Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+            }catch (exception : NoInternetException){
+                if (loading.isShowing)
+                    loading.cancel()
+
+                Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+            }catch (exception : ErrorBodyException){
+                if (loading.isShowing)
+                    loading.cancel()
+                if (exception.message?.equals("401")!!){
+                    Toast.makeText(requireContext(), "UnAuthorized, Please login again..", Toast.LENGTH_LONG).show()
+
+                    var sessionUtils = SessionUtils(requireContext())
+                    sessionUtils.saveLoggedIn(false)
+                    var action = PostListFragmentDirections.actionPostListFragmentToLoginFragment()
+                    navController.navigate(action)
+                }else{
+                    Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+
+                }
+            }catch (exception : Exception){
+                if (loading.isShowing)
+                    loading.cancel()
+
+                Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+            }
+        }
+
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -157,5 +265,25 @@ class PostListFragment : Fragment(), KodeinAware {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onStarted() {
+        
+    }
+
+    override fun onSuccess() {
+        
+    }
+
+    override fun onFailure() {
+        
+    }
+
+    override fun onError() {
+        
+    }
+
+    override fun onNoNetwork() {
+        
     }
 }

@@ -96,12 +96,12 @@ class AddCustomerFragment : Fragment(), KodeinAware {
                     "Please enter a valid phone number",
                     Toast.LENGTH_LONG
                 ).show()
-                !Patterns.EMAIL_ADDRESS.matcher(binding.etEmail?.text.toString().trim())
-                    .matches() -> Toast.makeText(
-                    requireContext(),
-                    "Please enter a valid email address",
-                    Toast.LENGTH_LONG
-                ).show()
+//                !Patterns.EMAIL_ADDRESS.matcher(binding.etEmail?.text.toString().trim())
+//                    .matches() -> Toast.makeText(
+//                    requireContext(),
+//                    "Please enter a valid email address",
+//                    Toast.LENGTH_LONG
+//                ).show()
                 else -> {
                     loading.show(getString(R.string.text_loading))
                     var sessions = SessionUtils(requireContext())
@@ -136,8 +136,12 @@ class AddCustomerFragment : Fragment(), KodeinAware {
                         } catch (exception: ErrorBodyException) {
                             if (loading.isShowing)
                                 loading.cancel()
-                            Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG)
-                                .show()
+                            if (exception.message?.equals("401")!!){
+                                Toast.makeText(requireContext(), "Un Authorized, Please login again..", Toast.LENGTH_LONG).show()
+                            }else{
+                                Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+
+                            }
                         } catch (exception: Exception) {
                             if (loading.isShowing)
                                 loading.cancel()

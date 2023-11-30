@@ -19,4 +19,7 @@ data class Services(
     @SerializedName("quantity")
     @Expose
     var quantity: String = "1",
+    @SerializedName("unitId")
+    @Expose
+    var unitId: Int? = null,
 )

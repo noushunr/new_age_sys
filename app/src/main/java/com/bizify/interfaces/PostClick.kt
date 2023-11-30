@@ -8,4 +8,5 @@ import com.bizify.data.model.CreateJobResponse
  */
 interface PostClick {
     fun onItemClick(job: CreateJobResponse)
+    fun onItemShare(job: CreateJobResponse)
 }

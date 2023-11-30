@@ -48,7 +48,7 @@
             android:layout_below="@+id/app_bar"
             android:nestedScrollingEnabled="false"
             android:scrollbars="none"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
             tools:listitem="@layout/item_post">
@@ -70,14 +70,17 @@
             android:textStyle="bold">
 
         </TextView>
+
         <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
             android:id="@+id/progress_circular"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/purple_200"
             android:indeterminate="true"
+            android:indeterminateTint="@color/purple_200"
             android:visibility="gone" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

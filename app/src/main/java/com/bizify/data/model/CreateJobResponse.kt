@@ -28,8 +28,12 @@ data class CreateJobResponse(
     var tech_Complettion: String? = "",
     @field:SerializedName("plate_ID")
     var plate_ID: Int? = 0,
-    @field:SerializedName("registartion")
+    @field:SerializedName("plateNumber")
     var registartion: String? = null,
+    @field:SerializedName("customer")
+    var customer: String? = null,
+    @field:SerializedName("mobile")
+    var mobile: String? = null,
     @field:SerializedName("refNo")
     var refNo: String? = "",
     @field:SerializedName("status")

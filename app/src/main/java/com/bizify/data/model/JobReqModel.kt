@@ -43,9 +43,9 @@ data class JobReqModel(
     var carBottomRemarks: String? = "",
     @field:SerializedName("carFront_Remarks")
     var carFrontRemarks: String? = "",
-    @field:SerializedName("services")
+    @field:SerializedName("serviceslist")
     var services: List<Services>? = listOf(),
-    @field:SerializedName("materials")
+    @field:SerializedName("materialslist")
     var materials: List<Services>? = listOf(),
 ) {
 }

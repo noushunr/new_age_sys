@@ -80,7 +80,7 @@ class VehicleListFragment : Fragment() , KodeinAware, SearchView.OnQueryTextList
         var adapter = VehicleAdapter(requireContext(), mutableListOf(),object : VehicleClick {
             override fun onItemClick(customers: Vehicles) {
 
-                navController.previousBackStackEntry?.savedStateHandle?.set("id", customers.id)
+//                navController.previousBackStackEntry?.savedStateHandle?.set("id", customers.id)
                 navController.previousBackStackEntry?.savedStateHandle?.set("vehicleName", customers.veh_Name)
                 navController.previousBackStackEntry?.savedStateHandle?.set("vehicleBrand", customers.veh_Brand)
                 navController.previousBackStackEntry?.savedStateHandle?.set("vehicleReg", customers.registartion)

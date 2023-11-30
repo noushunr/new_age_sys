@@ -30,7 +30,7 @@ abstract class SafeApiRequest {
             if (response.body() != null) {
                 error = Gson().toJson(response.body())
             }
-            throw ErrorBodyException(error)
+            throw ErrorBodyException("401")
         } else if(response.code() == 401 || response.code() == 400 || response.code() == 100 || response.code() == 404) {
             var error = response.errorBody()?.use {
                 it.string()
