@@ -38,6 +38,7 @@ class MainViewModel(private val repository: AodpListRepositories) : ViewModel() 
 
     var selectedServices  = MutableLiveData<List<Services>>()
     var selectedMaterials  = MutableLiveData<List<Services>>()
+    var jobOrderDetails = MutableLiveData<CreateJobResponse>()
     suspend fun getList(){
         try {
             val response = repository.getList(
@@ -124,5 +125,10 @@ class MainViewModel(private val repository: AodpListRepositories) : ViewModel() 
     suspend fun getOrderMaterialList(token: String,voucherNo:String){
         var response = repository.getVoucherMaterial(token, voucherNo)
         selectedMaterials.postValue(response)
+    }
+
+    suspend fun getJobOrderDetails(token: String,voucherNo:String){
+        var response = repository.getJobOrderDetails(token, voucherNo)
+        jobOrderDetails.postValue(response)
     }
 }

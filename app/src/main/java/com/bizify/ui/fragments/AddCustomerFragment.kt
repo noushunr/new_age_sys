@@ -91,11 +91,11 @@ class AddCustomerFragment : Fragment(), KodeinAware {
                     "Please enter the mobile number",
                     Toast.LENGTH_LONG
                 ).show()
-                binding.etMobile.text.toString().trim().length != 10 -> Toast.makeText(
-                    requireContext(),
-                    "Please enter a valid phone number",
-                    Toast.LENGTH_LONG
-                ).show()
+//                binding.etMobile.text.toString().trim().length != 10 -> Toast.makeText(
+//                    requireContext(),
+//                    "Please enter a valid phone number",
+//                    Toast.LENGTH_LONG
+//                ).show()
 //                !Patterns.EMAIL_ADDRESS.matcher(binding.etEmail?.text.toString().trim())
 //                    .matches() -> Toast.makeText(
 //                    requireContext(),

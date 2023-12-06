@@ -7,8 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bizify.data.model.CreateJobResponse
+import com.bizify.data.model.Customers
 import com.bizify.databinding.ItemPostBinding
 import com.bizify.interfaces.PostClick
 
@@ -21,21 +24,23 @@ class PostListAdapter(
     private var items: MutableList<CreateJobResponse>,
     private val postClick: PostClick
 ) :
-    RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<PostListAdapter.ViewHolder>(), Filterable {
     var DURATION: Long = 100
     private var on_attach = true
+    var filterItems : MutableList<CreateJobResponse> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder.from(parent)
 
     fun submitList(items: List<CreateJobResponse>?){
         this.items?.clear()
         this.items?.addAll(items!!)
+        filterItems = this.items
         notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        var item = items!![position]
+        var item = filterItems!![position]
         holder.binding.post = item
         holder.binding.tvJobNo.text = "Voucher No: ${item.voucherNo}"
         holder.binding.tvMobile.text = "Mobile No: ${item.mobile}"
@@ -56,7 +61,7 @@ class PostListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return filterItems.size
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -98,6 +103,35 @@ class PostListAdapter(
         animatorTranslateY.duration = (if (not_first_item) 2 else 1) * DURATION
         animatorSet.playTogether(animatorTranslateY, animatorAlpha)
         animatorSet.start()
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint?.toString() ?: ""
+                if (charString.isEmpty()) filterItems = items else {
+                    val filteredList = ArrayList<CreateJobResponse>()
+                    items
+                        .filter {
+                            (it.customer?.contains(constraint!!,ignoreCase = true)!!)
+
+                        }
+                        .forEach { filteredList.add(it) }
+                    filterItems = filteredList
+
+                }
+                return FilterResults().apply { values = filterItems }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+
+                filterItems = if (results?.values == null)
+                    ArrayList()
+                else
+                    results.values as ArrayList<CreateJobResponse>
+                notifyDataSetChanged()
+            }
+        }
     }
 
 }

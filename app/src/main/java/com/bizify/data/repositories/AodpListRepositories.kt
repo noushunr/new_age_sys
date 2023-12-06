@@ -94,4 +94,8 @@ class AodpListRepositories(
     suspend fun getVoucherMaterial(token: String, voucherNo : String): List<Services> {
         return apiRequest { api.getOrderMaterialList("Bearer $token",voucherNo) }
     }
+
+    suspend fun getJobOrderDetails(token: String, voucherNo : String): CreateJobResponse {
+        return apiRequest { api.getJobOrderDetails("Bearer $token",voucherNo) }
+    }
 }

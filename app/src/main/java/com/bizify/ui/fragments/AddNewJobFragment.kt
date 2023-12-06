@@ -87,6 +87,23 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+        viewModel.jobOrderDetails.removeObservers(this)
+        viewModel.jobOrderDetails.observe(this) {
+            binding.edtType.setText(it.jobType)
+            binding.edtOdoNo.setText(it.odoMeter)
+            selectedStatus = it.status?:""
+            var position = if (it.status.equals("In Progress",ignoreCase = true)) 0 else 1
+            binding.mySpinner.setSelection(position)
+            binding.edtComplaint.setText(it.customer_Complaint)
+            binding.edtInspection.setText(it.tech_Inspection)
+            binding.carTopRemarks.setText(it.carTopRemarks?:"")
+            binding.carBottomRemarks.setText(it.carBottomRemarks?:"")
+            binding.carFrontRemarks.setText(it.carFrontRemarks?:"")
+            binding.carLeftRemarks.setText(it.carLeftRemarks?:"")
+            binding.carRearRemarks.setText(it.carRearRemarks?:"")
+            binding.carRightRemarks.setText(it.carRightRemarks?:"")
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -104,7 +121,7 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
         loading = CustomProgressDialog(context)
-        viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+
         jobResponse = args.jobItem
         adapter = ServiceListAdapter(requireContext(), selectedService,object : ServiceItem {
             override fun onItemAdd(position: Int, quantity: String,isQuantity: Boolean,unitPriceName: String) {
@@ -158,8 +175,39 @@ class AddNewJobFragment : Fragment() , KodeinAware, AdapterView.OnItemSelectedLi
             isUpdate = true
             var sessions = SessionUtils(requireContext())
             lifecycleScope.launch {
-                viewModel.getOrderServiceList(sessions.token!!, jobResponse.voucherNo!!)
-                viewModel.getOrderMaterialList(sessions.token!!, jobResponse.voucherNo!!)
+                var sessions = SessionUtils(requireContext())
+                if (!isConnected(requireContext())){
+                    Toast.makeText(requireContext(),"No internet connection", Toast.LENGTH_LONG).show()
+                } else {
+                    loading.show(getString(R.string.text_loading))
+                    try {
+                        viewModel.getOrderServiceList(sessions.token!!, jobResponse.voucherNo!!)
+                        viewModel.getOrderMaterialList(sessions.token!!, jobResponse.voucherNo!!)
+                        viewModel.getJobOrderDetails(sessions.token!!, jobResponse.voucherNo!!)
+                    }catch (exception : ApiException){
+                        if (loading.isShowing)
+                            loading.cancel()
+                        Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                    }catch (exception : NoInternetException){
+                        if (loading.isShowing)
+                            loading.cancel()
+                        Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                    }catch (exception : ErrorBodyException){
+                        if (loading.isShowing)
+                            loading.cancel()
+                        if (exception.message?.equals("401")!!){
+                            Toast.makeText(requireContext(), "Un Authorized, Please login again..", Toast.LENGTH_LONG).show()
+                        }else{
+                            Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+
+                        }
+                    }catch (exception : Exception){
+                        if (loading.isShowing)
+                            loading.cancel()
+                        Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+
             }
         }
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "99428712778",
+    "project_id": "bizify-331f7",
+    "storage_bucket": "bizify-331f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99428712778:android:b22f92643d1e8c397a01b3",
+        "android_client_info": {
+          "package_name": "com.bizify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARmY6c7YLmALsv7NHdJJe7Ui6iOcw_-iQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,8 @@ package com.bizify.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -201,11 +203,25 @@ class PostListFragment : Fragment(), KodeinAware, NetworkListener {
                 loading.cancel()
         }
 
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                adapter.filter.filter(binding.edtSearch.text.toString())
+            }
+
+        })
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.selectedServices.removeObservers(viewLifecycleOwner)
+        viewModel.selectedServices.removeObservers(this)
     }
     fun getServices(jobOrder:CreateJobResponse){
         var sessions = SessionUtils(requireContext())
@@ -242,7 +258,7 @@ class PostListFragment : Fragment(), KodeinAware, NetworkListener {
                 if (loading.isShowing)
                     loading.cancel()
 
-                Toast.makeText(requireContext(), exception.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Unable to connect now. Please check your connectivity and try again..", Toast.LENGTH_LONG).show()
             }
         }
 

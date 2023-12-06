@@ -62,6 +62,9 @@ interface MyApi {
     @GET("api/VehicleJoborder/SearchMaterialbyVno?")
     suspend fun getOrderMaterialList(@Header("Authorization") authHeader : String,@Query("V_NO") vno:String): Response<List<Services>>
 
+    @GET("api/VehicleJoborder/FillJobDetails?")
+    suspend fun getJobOrderDetails(@Header("Authorization") authHeader : String,@Query("VNO") vno:String): Response<CreateJobResponse>
+
     companion object {
         operator fun invoke(
             context: Context,
@@ -72,6 +75,7 @@ interface MyApi {
             logging.level = HttpLoggingInterceptor.Level.BODY
             val okkHttpclient = OkHttpClient.Builder()
                 .addInterceptor(logging)
+                .addInterceptor(networkConnectionInterceptor)
                 .addInterceptor { chain ->
                     var newRequest: Request =
                         //                            if (!SessionUtils.token.isNullOrEmpty()) {

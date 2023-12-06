@@ -40,15 +40,33 @@
 
             </ImageView>
         </RelativeLayout>
-
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/edit_text_bg"
+            android:hint="Search by customer name"
+            android:layout_below="@+id/app_bar"
+            android:drawablePadding="@dimen/dimen10dp"
+            android:drawableStart="@drawable/ic_search_new"
+            android:inputType="textCapSentences"
+            android:padding="15dp"
+            android:textColorHint="#677097"
+            android:textSize="16sp"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/app_bar"
+            android:layout_below="@+id/edtSearch"
             android:nestedScrollingEnabled="false"
             android:scrollbars="none"
             android:visibility="gone"
+            tools:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="10"
             tools:listitem="@layout/item_post">
